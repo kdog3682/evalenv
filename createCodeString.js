@@ -15,7 +15,7 @@ function getMain(lib) {
             return lib[i]
         }
     }
-    return lib[0]
+    return getLast(lib)
 }
 
 function createCodeString(s, config, options) {
@@ -83,6 +83,13 @@ function buildBindings(bindings, ref, config) {
     }
 
     function runner(binding) {
+        if (!ref.hasOwnProperty(binding)) {
+            if (config.hasOwnProperty(binding)) {
+                return toStringArgumentPretty(config[binding])
+            } else {
+                panic('the binding $1 isnt in the paramRef or the sourceConfig', binding)
+            }
+        }
         const paramString = must(ref, binding)
         if (paramString == "source") {
             return getFromSource(binding, config)

@@ -5,15 +5,19 @@ export {
 }
 
 function debug(config) {
-    let target = 'debug'
-    if (config.debug == 'config') {
-        console.log(config)
-    } else {
-        console.log(config[config.debug])
-        target = config.debug
-    }
-    panic('Gently Panicking: @ ' + target)
+    log(config)
+    panic('Gently Panicking: @ config.' + config.debug)
 }
+
 function log(config) {
-    console.log(config)
+    const key = config.debug
+    if (key == 'config') {
+        console.log(config)
+    } 
+    else if (key == 'keys') {
+        console.log(Object.keys(config))
+    } 
+    else {
+        console.log(config[key])
+    }
 }
